@@ -9,9 +9,7 @@ int line_detect(){
     int eye3 = digitalRead(LD3);
     int eye4 = digitalRead(LD4);
     int eye5 = digitalRead(LD5);
-    eye5 = 0;
     int eye6 = digitalRead(LD6);
-    eye6 = 0;
     int eye7 = digitalRead(LD7);
     Serial.print("Line Detector: ");
     Serial.print(eye1);
@@ -61,7 +59,7 @@ int line_detect(){
 
     if (count  > 2)
         error = 10; // if more than 2 detectors detect line, it means the robot is at the intersection
-    Serial.print("Error: ");
+    Serial.print("Position error of head: ");
     Serial.println(error);
     return error;
 }
@@ -115,43 +113,74 @@ void turn_right(){
 void across_intersection(int intersection){
     Serial.print("Intersection: ");
     Serial.println(intersection);
-    turn_right();
-    switch (-1)
+    switch (intersection)
     {
     case 1:
+        Serial.println("Intersection 1. Turn Right");
         turn_right();
         break;
     case 2:
+        Serial.println("Intersection 2. Turn Left");
         turn_left();
         break;
     case 3:
+        Serial.println("Intersection 3. Turn Left");
         turn_left();
         break;
     case 4:
+        Serial.println("Intersection 4. Go Straight");
         break;
     case 5:
+        Serial.println("Intersection 5. Turn Right");
         turn_right();
         break;
     case 6:
+        Serial.println("Intersection 6. Go Straight");
         break;
     case 7:
+        Serial.println("Intersection 7. Go Straight");
         break;
     case 8:
+        Serial.println("Intersection 8. Turn Right");
         turn_right();
         break;
     case 9:
+        Serial.println("Intersection 9. Go Straight");
         break;
     case 10:
+        Serial.println("Intersection 10. Turn Right");
         turn_right();
         break;
     case 11:
+        Serial.println("Intersection 11. Turn Left");
         turn_left();
         break;
     case 12:
+        Serial.println("Intersection 12. STOP");
+        stop();
         break;
     default:
         break;
     }
+}
+
+void pause_check(int intersection_, String signal_control_){
+    while (intersection_ == 3 && signal_control_ != "A") {
+        Serial.println("Stop. Waiting for signal A...");
+        skid_steer(0, 0);
+    }
+
+    while (intersection_ == 6 && signal_control_ != "C") {
+        Serial.println("Stop. Waiting for signal C...");
+        skid_steer(0, 0);
+    }
+
+    while (intersection_ == 9 && signal_control_ != "D") {
+        Serial.println("Stop. Waiting for signal D...");
+        skid_steer(0, 0);
+    }
+
+    Serial.println("Resume. Robot is moving...");
 }
 
 
