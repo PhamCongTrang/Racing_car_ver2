@@ -9,9 +9,13 @@ volatile int encoder2 = 0;
 volatile int encoder3 = 0;
 volatile int encoder4 = 0;
 
+volatile float error = 0;
+
 volatile float x = 0;
 volatile float y = 0;
 volatile float theta = 0;
+
+volatile int intersection = 0;
 
 void encoder_update_1(){
   if(digitalRead(ENC1A) == digitalRead(ENC1B)){
@@ -79,12 +83,19 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  while (true)
+  if (line_detect() != 0){
+    error = line_detect();
+  }
+  if (error == 10)
   {
-    int straight_speed = line_follow_straight();
-    int turn_speed = line_follow_turn();
-    skid_steer(straight_speed, turn_speed);
-
+    intersection += 1;
+    across_intersection(intersection);
+  }else if (error == 0){
+    int straight_speed = line_follow_straight(error);
+    skid_steer(straight_speed, 0);
+  } else {
+    int turn_speed = line_follow_turn(error);
+    skid_steer(0, turn_speed);
   }
   
 }
