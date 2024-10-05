@@ -2,15 +2,15 @@
 #define CONFIG_HPP
 
 // PWM pins (PWM1, PWM2, PWM3, PWM4) 4, 5, 6, 7
-#define PWM1 4
-#define PWM2 5
+#define PWM1 5
+#define PWM2 4
 #define PWM3 6
 #define PWM4 7
 // Chieu quay dong co (L1, R1, L2, R2, L3, R3, L4, R4) 30, 31, 32, 33, 34, 35, 36, 37
-#define L1 30
-#define R1 31
-#define L2 32
-#define R2 33
+#define L1 33
+#define R1 32
+#define L2 31
+#define R2 30
 #define L3 34
 #define R3 35
 #define L4 36
@@ -55,10 +55,10 @@
 #define Kinematic_L 1
 
 // Line following parameters
-#define Kp_straight 0.5
+#define Kp_straight 15
 #define Ki_straight 0.5
 #define Kd_straight 0.5
-#define Kp_turn 0.5
+#define Kp_turn 30
 #define Ki_turn 0.5
 #define Kd_turn 0.5
 
