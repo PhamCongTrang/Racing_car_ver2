@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <Wire.h>
 #include "config.hpp"
 #include "setupPinMode.hpp"
 #include "motor_controller.hpp"
@@ -16,6 +17,8 @@ volatile float y = 0;
 volatile float theta = 0;
 
 volatile int intersection = 0;
+
+String signal_control = "";
 
 void encoder_update_1(){
   if(digitalRead(ENC1A) == digitalRead(ENC1B)){
@@ -66,6 +69,21 @@ void update_position(){
   }
 }
 
+// function that executes whenever data is received from master
+void receiveEvent(int howMany) {
+String payload = "";
+  while (0 < Wire.available()) {
+    char c = Wire.read();      /* receive byte as a character */
+    payload += c;        
+  }
+  signal_control = payload;
+}
+
+// function that executes whenever data is requested from master
+void requestEvent() {
+  Wire.write(signal_control.c_str());  /*send string on request */
+}
+
 void setup() {
   Serial.begin(9600);
   Serial.println("Starting...");
@@ -78,6 +96,10 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ENC3B), encoder_update_3, CHANGE);
   // attachInterrupt(digitalPinToInterrupt(ENC4A), encoder_update_4, CHANGE);
   // attachInterrupt(digitalPinToInterrupt(ENC4B), encoder_update_4, CHANGE);
+  Wire.begin(8);                /* join i2c bus with address 8 */
+  Wire.onReceive(receiveEvent); /* register receive event */
+  Wire.onRequest(requestEvent); /* register request event */
+
   Serial.println("Setup done!");
 }
 
@@ -86,14 +108,18 @@ void loop() {
   if (line_detect() != 0){
     error = line_detect();
   }
+
   if (error == 10)
   {
     intersection += 1;
+    pause_check(intersection, signal_control);
     across_intersection(intersection);
-  }else if (error == 0){
+  } 
+  else if (abs(error) < 1) { // Permit error smaller than 1
     int straight_speed = line_follow_straight(error);
     skid_steer(straight_speed, 0);
-  } else {
+  } 
+  else {
     int turn_speed = line_follow_turn(error);
     skid_steer(0, turn_speed);
   }
