@@ -4,10 +4,10 @@
 #define MOTOR_CONTROLLER_HPP
 
 void motor_control(int motor, int speed){
-    Serial.print("Motor ");
-    Serial.print(motor);
-    Serial.print(" Speed: ");
-    Serial.println(speed);
+    // Serial.print("Motor ");
+    // Serial.print(motor);
+    // Serial.print(" Speed: ");
+    // Serial.println(speed);
     switch (motor)
     {
     case 1:
@@ -81,10 +81,10 @@ void turn(int speed){
 }
 
 void skid_steer(int speed, int angular_speed){
-    Serial.print("Skid Steer: ");
-    Serial.print(speed);
-    Serial.print(" ");
-    Serial.println(angular_speed);
+    // Serial.print("Skid Steer: ");
+    // Serial.print(speed);
+    // Serial.print(" ");
+    // Serial.println(angular_speed);
     motor_control(1, speed + angular_speed);
     motor_control(2, speed + angular_speed);
     motor_control(3, speed - angular_speed);

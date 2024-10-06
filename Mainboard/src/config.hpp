@@ -12,9 +12,9 @@
 #define L2 31
 #define R2 30
 #define L3 34
-#define R3 35
+#define R3 52
 #define L4 36
-#define R4 37
+#define R4 53
 // Encoder pins (interrupt pins) 2, 3, 18, 19, 20, 21
 #define ENC1A 2
 #define ENC1B 3
