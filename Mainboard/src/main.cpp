@@ -76,16 +76,21 @@ String payload = "";
     char c = Wire.read();      /* receive byte as a character */
     payload += c;        
   }
-  signal_control = payload;
+  // check if payload in "A" "B" "C" "D" "E" "R" then assign to signal_control
+  if (payload == "A" || payload == "B" || payload == "C" || payload == "D" || payload == "E" || payload == "R"){
+    signal_control = payload;
+  }
 }
-
 // function that executes whenever data is requested from master
 void requestEvent() {
   Wire.write(signal_control.c_str());  /*send string on request */
+  Wire.write("\n");
+  // convert intersection to string and send
+  Wire.write(String(intersection).c_str());
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Starting...");
   setup_pin_mode();
   attachInterrupt(digitalPinToInterrupt(ENC1A), encoder_update_1, CHANGE);
@@ -101,29 +106,6 @@ void setup() {
   Wire.onRequest(requestEvent); /* register request event */
 
   Serial.println("Setup done!");
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  if (line_detect() != 0){
-    error = line_detect();
-  }
-
-  if (error == 10)
-  {
-    intersection += 1;
-    pause_check(intersection);
-    across_intersection(intersection);
-  } 
-  else if (abs(error) < 1) { // Permit error smaller than 1
-    int straight_speed = line_follow_straight(error);
-    skid_steer(straight_speed, 0);
-  } 
-  else {
-    int turn_speed = line_follow_turn(error);
-    skid_steer(0, turn_speed);
-  }
-  
 }
 
 void pause_check(int intersection_){
@@ -152,4 +134,75 @@ void pause_check(int intersection_){
     }
 
     Serial.println("Resume. Robot is moving...");
+}
+
+void pause_check_(int intersection_){
+    while(intersection_ == 0 && signal_control != "A"){
+        Serial.print("Signal Control:");
+        Serial.print(signal_control);
+        Serial.print(". Intersection:");
+        Serial.print(intersection_);
+        Serial.println(". Robot in Start Point. Waiting for signal A...");
+        skid_steer(0, 0);
+    }
+    while (intersection_ == 1 && signal_control != "C") {
+        Serial.print("Signal Control:");
+        Serial.print(signal_control);
+        Serial.print(". Intersection:");
+        Serial.print(intersection_);
+        Serial.println(" .Robot in A Point. Waiting for signal C...");
+        skid_steer(0, 0);
+    }
+
+    while (intersection_ == 2 && signal_control != "D") {
+        Serial.print("Signal Control:");
+        Serial.print(signal_control);
+        Serial.print(". Intersection:");
+        Serial.print(intersection_);
+        Serial.println(". Robot in C Point. Waiting for signal D...");
+        skid_steer(0, 0);
+    }
+
+  }
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if (error == 10) 
+    error = 0;
+
+  float temp = line_detect();
+  if (temp != -10){
+    error = temp;
+  }
+
+  Serial.print(". Position error of head: ");
+  Serial.println(error);
+
+  if (error == 10)
+  {
+    intersection += 1;
+    if (intersection == 4)
+    {
+      stop();
+      while (1)
+      {
+        skid_steer(0, 0);
+      }
+    }
+    pause_check_(intersection);
+    stop();
+    across_intersection_(intersection);
+  } 
+  // else if (abs(error) < 1) { // Permit error smaller than 1
+  //   int straight_speed = line_follow_straight(error);
+  //   skid_steer(straight_speed, 0);
+  // } 
+  // else {
+  //   int turn_speed = line_follow_turn(error);
+  //   skid_steer(10, turn_speed);
+  // }
+  else {
+    skid_steer(50, 5*error);
+  }
+  
 }
