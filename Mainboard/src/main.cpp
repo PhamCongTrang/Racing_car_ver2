@@ -112,7 +112,7 @@ void loop() {
   if (error == 10)
   {
     intersection += 1;
-    pause_check(intersection, signal_control);
+    pause_check(intersection);
     across_intersection(intersection);
   } 
   else if (abs(error) < 1) { // Permit error smaller than 1
@@ -124,4 +124,32 @@ void loop() {
     skid_steer(0, turn_speed);
   }
   
+}
+
+void pause_check(int intersection_){
+    while(intersection_ == 0 && signal_control != "A"){
+        Serial.println("Robot in Start Point. Waiting for signal A...");
+        skid_steer(0, 0);
+    }
+    while (intersection_ == 3 && signal_control != "C") {
+        Serial.println("Robot in A Point. Waiting for signal C...");
+        skid_steer(0, 0);
+    }
+
+    while (intersection_ == 6 && signal_control != "D") {
+        Serial.println("Robot in C Point. Waiting for signal D...");
+        skid_steer(0, 0);
+    }
+
+    while (intersection_ == 9 && signal_control != "E") {
+        Serial.println("Robot in D Point. Waiting for signal E...");
+        skid_steer(0, 0);
+    }
+
+    while (intersection_ == 12 && signal_control != "R") {
+        Serial.println("STOP. Race is Ended. Congratulation!");
+        skid_steer(0, 0);
+    }
+
+    Serial.println("Resume. Robot is moving...");
 }
