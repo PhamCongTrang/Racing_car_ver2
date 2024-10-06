@@ -10,7 +10,6 @@ int line_detect(){
     int eye4 = digitalRead(LD4);
     int eye5 = digitalRead(LD5);
     int eye6 = digitalRead(LD6);
-    eye6 = 0;
     int eye7 = digitalRead(LD7);
     Serial.print("Line Detector: ");
     Serial.print(eye1);
@@ -19,7 +18,7 @@ int line_detect(){
     Serial.print(eye4);
     Serial.print(eye5);
     Serial.print(eye6);
-    Serial.println(eye7);
+    Serial.print(eye7);
     float error = 0;
     //error is average of detector which has line
     int count = 0;
@@ -60,15 +59,17 @@ int line_detect(){
 
     if (count  > 2)
         error = 10; // if more than 2 detectors detect line, it means the robot is at the intersection
-    Serial.print("Position error of head: ");
-    Serial.println(error);
+    if (count == 0)
+        error = -10;
+    // Serial.print(" .Position error of head: ");
+    // Serial.println(error);
     return error;
 }
 int line_follow_straight(float error){
     int linear_speed = int (Kp_straight * ((NUMBER_DETECTOR - 1)/2 - abs(error)));
     linear_speed = 40;
-    Serial.print("Linear Speed: ");
-    Serial.println(linear_speed);
+    // Serial.print("Linear Speed: ");
+    // Serial.println(linear_speed);
     return linear_speed;
 }
 int line_follow_turn(float error){
@@ -76,23 +77,30 @@ int line_follow_turn(float error){
     int angular_speed;
     if (error > 0)
     {
-        angular_speed = 80;
+        angular_speed = 55;
     }
     else
     {
-        angular_speed = -80;
+        angular_speed = -55;
     }
-    Serial.print("Angular Speed: ");
-    Serial.println(angular_speed);
+    // Serial.print("Angular Speed: ");
+    // Serial.println(angular_speed);
     return angular_speed;
 }
 
 void turn_left(){
     Serial.println("Turn Left");
-    for (int i = 0; i < 20; i++)
-    {
-        skid_steer(0, 80);
-    }
+    // for (int i = 0; i < 100; i++)
+    // {
+    //     skid_steer(0, 80);
+    // }
+    skid_steer(40, 0);
+    delay(700);
+    stop();
+    skid_steer(0, 50);
+    delay(2200);
+    stop();
+    
     // while (line_detect() <= 0)
     // {
     //     skid_steer(0, 30);
@@ -101,10 +109,12 @@ void turn_left(){
 
 void turn_right(){
     Serial.println("Turn Right");
-    for (int i = 0; i < 10; i++)
-    {
-        skid_steer(0, -80);
-    }
+    skid_steer(40, 0);
+    delay(700);
+    stop();
+    skid_steer(0, -50);
+    delay(2200);
+    stop();
     // while (line_detect() >= 0)
     // {
     //     skid_steer(0, -30);
@@ -158,6 +168,31 @@ void across_intersection(int intersection){
         break;
     case 12:
         Serial.println("Intersection 12. STOP");
+        stop();
+        break;
+    default:
+        break;
+    }
+}
+
+void across_intersection_(int intersection){
+    Serial.print("Intersection: ");
+    Serial.println(intersection);
+    switch (intersection)
+    {
+    case 1:
+        Serial.println("Intersection 1. Go Straight");
+        break;
+    case 2:
+        Serial.println("Intersection 2. Turn Right");
+        turn_right();
+        break;
+    case 3:
+        Serial.println("Intersection 3. Turn Left");
+        turn_left();
+        break;
+    case 4:
+        Serial.println("Intersection 4. STOP");
         stop();
         break;
     default:
