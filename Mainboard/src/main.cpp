@@ -16,7 +16,7 @@ volatile float x = 0;
 volatile float y = 0;
 volatile float theta = 0;
 
-volatile int intersection = 0;
+volatile int intersection = -1;
 
 String signal_control = "";
 
