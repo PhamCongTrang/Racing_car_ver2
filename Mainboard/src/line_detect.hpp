@@ -165,18 +165,27 @@ void across_intersection(int intersection){
 }
 
 void pause_check(int intersection_, String signal_control_){
-    while (intersection_ == 3 && signal_control_ != "A") {
-        Serial.println("Stop. Waiting for signal A...");
+    while(intersection_ == 0 && signal_control_ != "A"){
+        Serial.println("Robot in Start Point. Waiting for signal A...");
+        skid_steer(0, 0);
+    }
+    while (intersection_ == 3 && signal_control_ != "C") {
+        Serial.println("Robot in A Point. Waiting for signal C...");
         skid_steer(0, 0);
     }
 
-    while (intersection_ == 6 && signal_control_ != "C") {
-        Serial.println("Stop. Waiting for signal C...");
+    while (intersection_ == 6 && signal_control_ != "D") {
+        Serial.println("Robot in C Point. Waiting for signal D...");
         skid_steer(0, 0);
     }
 
-    while (intersection_ == 9 && signal_control_ != "D") {
-        Serial.println("Stop. Waiting for signal D...");
+    while (intersection_ == 9 && signal_control_ != "E") {
+        Serial.println("Robot in D Point. Waiting for signal E...");
+        skid_steer(0, 0);
+    }
+
+    while (intersection_ == 12 && signal_control_ != "R") {
+        Serial.println("STOP. Race is Ended. Congratulation!");
         skid_steer(0, 0);
     }
 
