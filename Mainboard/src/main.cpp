@@ -209,5 +209,15 @@ void loop() {
   else {
     skid_steer(vel_avg, Kp_turn*error);
   }
+
+  // check if intersection = 12 then stop robot and stop the loop
+  if (intersection == 12){
+    Serial.println("ROBOT IS AT THE END OF THE RACE. SHOT SUCCEED!");
+    Serial.println("CONGRATULATION!");
+    while (1)
+    {
+      skid_steer(0, 0);
+    }
+  }
   
 }
