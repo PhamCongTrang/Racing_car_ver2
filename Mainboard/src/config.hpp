@@ -41,6 +41,8 @@
 #define LD9 49
 #define LD10 50
 
+#define LED 13
+
 // Encoder information
 #define pulsePerRev 330
 #define gearRatio 30
@@ -55,12 +57,19 @@
 #define Kinematic_L 1
 
 // Line following parameters
+#define vel_avg 50 // IMPORTANT
 #define Kp_straight 15
 #define Ki_straight 0.5
 #define Kd_straight 0.5
-#define Kp_turn 30
+#define Kp_turn 5 // IMPORTANT
 #define Ki_turn 0.5
 #define Kd_turn 0.5
+
+// Turn parameters (IMPORTANT)
+#define vel_adjust_linear 40
+#define time_adjut_linear 700
+#define turn_speed 50
+#define turn_time 2200
 
 #endif
 

@@ -23,5 +23,6 @@ void setup_pin_mode(){
     pinMode(ENC3B, INPUT);
     // pinMode(ENC4A, INPUT);
     // pinMode(ENC4B, INPUT);
+    pinMode(LED, OUTPUT);
 }
 #endif

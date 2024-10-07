@@ -90,35 +90,23 @@ int line_follow_turn(float error){
 
 void turn_left(){
     Serial.println("Turn Left");
-    // for (int i = 0; i < 100; i++)
-    // {
-    //     skid_steer(0, 80);
-    // }
-    skid_steer(40, 0);
-    delay(700);
+    skid_steer(vel_adjust_linear, 0);
+    delay(time_adjut_linear);
     stop();
-    skid_steer(0, 50);
-    delay(2200);
+    skid_steer(0, turn_speed);
+    delay(turn_time);
     stop();
-    
-    // while (line_detect() <= 0)
-    // {
-    //     skid_steer(0, 30);
-    // }
 }
 
 void turn_right(){
     Serial.println("Turn Right");
-    skid_steer(40, 0);
-    delay(700);
+    skid_steer(vel_adjust_linear, 0);
+    delay(time_adjut_linear);
     stop();
-    skid_steer(0, -50);
-    delay(2200);
+    skid_steer(0, -turn_speed);
+    delay(turn_time);
     stop();
-    // while (line_detect() >= 0)
-    // {
-    //     skid_steer(0, -30);
-    // }
+
 }
 
 void across_intersection(int intersection){
@@ -169,6 +157,11 @@ void across_intersection(int intersection){
     case 12:
         Serial.println("Intersection 12. STOP");
         stop();
+        /*
+            PUT YOUR CODE HERE
+            IT WILL RUN WHEN ROBOT IS AT THE END OF THE RACE
+            GOOD LUCK
+        */
         break;
     default:
         break;
