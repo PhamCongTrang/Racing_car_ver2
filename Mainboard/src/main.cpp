@@ -186,18 +186,9 @@ void loop() {
   if (error == 10)
   {
     intersection += 1;
-    if (intersection == 4)
-    {
-      stop();
-      while (1)
-      {
-        skid_steer(0, 0);
-      }
-    }
     pause_check(intersection);
     stop();
     across_intersection(intersection);
-    
   } 
   // else if (abs(error) < 1) { // Permit error smaller than 1
   //   int straight_speed = line_follow_straight(error);
