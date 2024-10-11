@@ -109,7 +109,7 @@ void turn_right(){
 
 }
 
-void across_intersection(int intersection){
+void across_intersection_blue(int intersection){
     Serial.print("Intersection: ");
     Serial.println(intersection);
     switch (intersection)
@@ -168,25 +168,59 @@ void across_intersection(int intersection){
     }
 }
 
-void across_intersection_(int intersection){
+void across_intersection_red(int intersection){
     Serial.print("Intersection: ");
     Serial.println(intersection);
     switch (intersection)
     {
     case 1:
-        Serial.println("Intersection 1. Go Straight");
+        Serial.println("Intersection 1. Turn Left");
+        turn_left();
         break;
     case 2:
         Serial.println("Intersection 2. Turn Right");
         turn_right();
         break;
     case 3:
-        Serial.println("Intersection 3. Turn Left");
-        turn_left();
+        Serial.println("Intersection 3. Turn Right");
+        turn_right();
         break;
     case 4:
-        Serial.println("Intersection 4. STOP");
+        Serial.println("Intersection 4. Go Straight");
+        break;
+    case 5:
+        Serial.println("Intersection 5. Turn Left");
+        turn_left();
+        break;
+    case 6:
+        Serial.println("Intersection 6. Go Straight");
+        break;
+    case 7:
+        Serial.println("Intersection 7. Go Straight");
+        break;
+    case 8:
+        Serial.println("Intersection 8. Turn Left");
+        turn_left();
+        break;
+    case 9:
+        Serial.println("Intersection 9. Go Straight");
+        break;
+    case 10:
+        Serial.println("Intersection 10. Turn Left");
+        turn_left();
+        break;
+    case 11:
+        Serial.println("Intersection 11. Turn Right");
+        turn_right();
+        break;
+    case 12:
+        Serial.println("Intersection 12. STOP");
         stop();
+        /*
+            PUT YOUR CODE HERE
+            IT WILL RUN WHEN ROBOT IS AT THE END OF THE RACE
+            GOOD LUCK
+        */
         break;
     default:
         break;
@@ -194,5 +228,29 @@ void across_intersection_(int intersection){
 }
 
 
+// void across_intersection_(int intersection){
+//     Serial.print("Intersection: ");
+//     Serial.println(intersection);
+//     switch (intersection)
+//     {
+//     case 1:
+//         Serial.println("Intersection 1. Go Straight");
+//         break;
+//     case 2:
+//         Serial.println("Intersection 2. Turn Right");
+//         turn_right();
+//         break;
+//     case 3:
+//         Serial.println("Intersection 3. Turn Left");
+//         turn_left();
+//         break;
+//     case 4:
+//         Serial.println("Intersection 4. STOP");
+//         stop();
+//         break;
+//     default:
+//         break;
+//     }
+// }
 
 #endif

@@ -110,35 +110,35 @@ void setup() {
 
 void pause_check(int intersection_){
     while(intersection_ == 0 && signal_control != "A"){
-        DigitalWrite(LED, HIGH);
+        digitalWrite(LED, HIGH);
         Serial.println("Robot in Start Point. Waiting for signal A...");
         skid_steer(0, 0);
     }
     while (intersection_ == 3 && signal_control != "C") {
-        DigitalWrite(LED, HIGH);
+        digitalWrite(LED, HIGH);
         Serial.println("Robot in A Point. Waiting for signal C...");
         skid_steer(0, 0);
     }
 
     while (intersection_ == 6 && signal_control != "D") {
-        DigitalWrite(LED, HIGH);
+        digitalWrite(LED, HIGH);
         Serial.println("Robot in C Point. Waiting for signal D...");
         skid_steer(0, 0);
     }
 
     while (intersection_ == 9 && signal_control != "E") {
-        DigitalWrite(LED, HIGH);
+        digitalWrite(LED, HIGH);
         Serial.println("Robot in D Point. Waiting for signal E...");
         skid_steer(0, 0);
     }
 
     while (intersection_ == 12 && signal_control != "R") {
-        DigitalWrite(LED, HIGH);
+        digitalWrite(LED, HIGH);
         Serial.println("STOP. Race is Ended. Congratulation!");
         skid_steer(0, 0);
     }
 
-    DigitalWrite(LED, LOW);
+    digitalWrite(LED, LOW);
     Serial.println("Resume. Robot is moving...");
 }
 
@@ -197,6 +197,7 @@ void loop() {
     pause_check(intersection);
     stop();
     across_intersection(intersection);
+    
   } 
   // else if (abs(error) < 1) { // Permit error smaller than 1
   //   int straight_speed = line_follow_straight(error);

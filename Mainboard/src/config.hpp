@@ -71,6 +71,16 @@
 #define turn_speed 50
 #define turn_time 2200
 
+// MAP COLOR: COLOR_RED or COLOR_BLUE
+#define COLOR_RED
+
+// function define map color, do not modify
+#ifdef COLOR_BLUE
+    #define across_intersection across_intersection_blue
+#elif defined(COLOR_RED)
+    #define across_intersection across_intersection_red
+#endif
+
 #endif
 
 
